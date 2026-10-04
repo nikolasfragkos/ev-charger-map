@@ -1,0 +1,701 @@
+{
+  "info": {
+    "_postman_id": "1319f85b-c8c2-48c8-9d61-8c34b2e3fc1a",
+    "name": "EV Presentation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "00 Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "6a823f62-f90d-4841-b822-a2895b65b526",
+            "exec": [
+              "var jsonData = pm.response.json();\r",
+              "pm.environment.set(\"token\", jsonData.token);\r",
+              "console.log(\"Token saved:\", jsonData.token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "id": "e585a931-66dd-492f-b248-906c2d8ebae1",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"admin@ev.local\",\r\n  \"password\": \"admin123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/signin",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "signin"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Healthcheck",
+      "id": "5ab1cbab-605c-4aef-b38c-fca4b523efd8",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/admin/healthcheck",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "admin",
+            "healthcheck"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Mock Card",
+      "id": "8affd512-b088-43a2-b6b8-307d30852e7b",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"paymentMethodId\": \"mock_pm_postman_test\",\r\n  \"provider\": \"mock\",\r\n  \"tokenLast4\": \"4242\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/payments/save-method",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "payments",
+            "save-method"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Reset Points",
+      "id": "88c7a1c1-0381-4c86-9519-77df16ca8af6",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/admin/resetpoints",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "admin",
+            "resetpoints"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Points (Import)",
+      "id": "424ad093-e090-43ec-aabe-f27ec30e774e",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": [
+                "postman-cloud:///1f1078ca-222e-4dd0-a508-2a8359660dec"
+              ]
+            },
+            {
+              "key": "",
+              "type": "file",
+              "uuid": "1d2eef71-b64f-46a9-a6a9-4a1471df94c2",
+              "src": [],
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/admin/addpoints",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "admin",
+            "addpoints"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Healthcheck Copy",
+      "id": "14d0dc6f-8db9-44e5-a972-0bf3c822a00c",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/admin/healthcheck",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "admin",
+            "healthcheck"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Available Points",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ef6abd05-e723-4561-8f3f-2aebf4a2e830",
+            "exec": [
+              "// Parse the response JSON\r",
+              "var jsonData = pm.response.json();\r",
+              "\r",
+              "// Check if the response is a list (Array)\r",
+              "if (Array.isArray(jsonData) && jsonData.length > 0) {\r",
+              "    // Get the first point from the list\r",
+              "    var firstPoint = jsonData[0];\r",
+              "    \r",
+              "    // Save the ID to the Environment\r",
+              "    // Note: Adjust 'pointid' if your API uses 'id' or 'PointID'\r",
+              "    pm.environment.set(\"point_id\", firstPoint.pointid);\r",
+              "    \r",
+              "    console.log(\"Success! Saved Point ID:\", firstPoint.pointid);\r",
+              "} else {\r",
+              "    console.log(\"No points found in the response!\");\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "id": "64d797cc-1f2f-4e20-9f76-e07f32446ec9",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/points?status=available",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "points"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "available"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Charging Points",
+      "id": "0bb64efa-f043-4f33-8399-68003ce3b566",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/points?status=charging",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "points"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "charging"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get OutOfOrder Points",
+      "id": "294a309a-5fcc-4df4-9db8-902db3d4527a",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/points?status=offline",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "points"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "offline"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Point Details",
+      "id": "31b3a26c-92ec-4108-adb0-12a893cec4dd",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/point/{{point_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "point",
+            "{{point_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Reserve Point",
+      "id": "059f41c2-036f-4a49-9118-870ee50af1a9",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/reserve/{{point_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "reserve",
+            "{{point_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Reserved Points",
+      "id": "11ed8456-9b5d-43ad-9ae8-d61e0a8dbc20",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/points?status=reserved",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "points"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "reserved"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Point Details Copy",
+      "id": "136d7b5e-bc18-42c0-989c-b2b852944041",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/point/{{point_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "point",
+            "{{point_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Release Point",
+      "id": "b93c840c-ca79-4340-8c13-11e243bea99c",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"status\": \"available\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/updpoint/{{point_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "updpoint",
+            "{{point_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Point Details Copy",
+      "id": "79da753d-2411-49c7-89bd-e057d4567403",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/point/{{point_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "point",
+            "{{point_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Reserve Point (Retry)",
+      "id": "f5618e83-ff9b-497b-a467-420b7e452f5d",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/reserve/{{point_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "reserve",
+            "{{point_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Reserved Points Copy",
+      "id": "9de11977-1b62-4b95-8cee-dd2b82115ad2",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/points?status=reserved",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "points"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "reserved"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Start Session",
+      "id": "716933b4-af10-4a00-b46c-abff8322aa2b",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"pointid\": \"{{point_id}}\",\r\n  \"starttime\": \"{{S1}}\",\r\n  \"endtime\": \"{{E1}}\",\r\n  \"startsoc\": 10,\r\n  \"endsoc\": 50,\r\n  \"totalkwh\": 15,\r\n  \"kwhprice\": 0.50,\r\n  \"amount\": 7.50\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/newsession",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "newsession"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Point Status History",
+      "id": "c1c2fea6-612d-4d69-82f8-497f8e6c7bb5",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/pointstatus/{{point_id}}/{{date_from}}/{{date_to}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "pointstatus",
+            "{{point_id}}",
+            "{{date_from}}",
+            "{{date_to}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Point Details Copy",
+      "id": "be148c05-b5e2-4e25-b531-e6bc6697a203",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/point/{{point_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "point",
+            "{{point_id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Start Session 2",
+      "id": "bc347b75-e19a-4dc6-b740-e8f041aa48f1",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"pointid\": \"{{point_id}}\",\r\n  \"starttime\": \"{{S2}}\",\r\n  \"endtime\": \"{{E2}}\",\r\n  \"startsoc\": 50,\r\n  \"endsoc\": 80,\r\n  \"totalkwh\": 20,\r\n  \"kwhprice\": 0.60,\r\n  \"amount\": 12.00\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/newsession",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "newsession"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Point Sessions",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "1557dbe0-69c6-4eb6-ad77-0871d9d4222a",
+            "exec": [
+              "// Get the original variables\r",
+              "let s1 = pm.environment.get(\"S1\"); // \"2025-01-01 10:00\"\r",
+              "let e2 = pm.environment.get(\"E2\"); // \"2025-01-01 13:00\"\r",
+              "\r",
+              "// Remove hyphens and take only the first 8 characters (YYYYMMDD)\r",
+              "// Logic: Split by space to get date, remove hyphens\r",
+              "let s1_clean = s1.split(' ')[0].replace(/-/g, '');\r",
+              "let e2_clean = e2.split(' ')[0].replace(/-/g, '');\r",
+              "\r",
+              "// Save as temporary local variables\r",
+              "pm.variables.set(\"S1_clean\", s1_clean);\r",
+              "pm.variables.set(\"E2_clean\", e2_clean);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "id": "b3db6b3d-4e3f-4cb6-b53c-38275b1b3f64",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/sessions/{{point_id}}/{{S1_clean}}/{{E2_clean}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "sessions",
+            "{{point_id}}",
+            "{{S1_clean}}",
+            "{{E2_clean}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Point Status History",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "ca7a0cb8-6e7e-406a-b5f6-6e4e75d1283e",
+            "exec": [
+              "// Get the original variables\r",
+              "let s1 = pm.environment.get(\"S1\"); // \"2025-01-01 10:00\"\r",
+              "let e2 = pm.environment.get(\"E2\"); // \"2025-01-01 13:00\"\r",
+              "\r",
+              "// Remove hyphens and take only the first 8 characters (YYYYMMDD)\r",
+              "// Logic: Split by space to get date, remove hyphens\r",
+              "let s1_clean = s1.split(' ')[0].replace(/-/g, '');\r",
+              "let e2_clean = e2.split(' ')[0].replace(/-/g, '');\r",
+              "\r",
+              "// Save as temporary local variables\r",
+              "pm.variables.set(\"S1_clean\", s1_clean);\r",
+              "pm.variables.set(\"E2_clean\", e2_clean);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "id": "b9f7a5ba-c18b-4805-beef-2c0bc3973231",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/pointstatus/{{point_id}}/{{S1_clean}}/{{E2_clean}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "pointstatus",
+            "{{point_id}}",
+            "{{S1_clean}}",
+            "{{E2_clean}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "id": "dcc90668-3243-4f7f-a661-621cb4546897",
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "id": "fad93d27-7c18-4492-833a-30ecf46cf07f",
+      "key": "point_id",
+      "value": ""
+    },
+    {
+      "id": "4be5cede-38aa-4d1a-8477-60f876df4bd6",
+      "key": "user",
+      "value": ""
+    },
+    {
+      "id": "c672a228-bb91-433c-ae51-d1e4e6cc8f20",
+      "key": "pass",
+      "value": ""
+    },
+    {
+      "id": "c1de973b-1755-4d62-9eb2-a1c85993d067",
+      "key": "s1",
+      "value": ""
+    },
+    {
+      "id": "527fe066-1a7d-4da4-b08b-409208050adc",
+      "key": "e1",
+      "value": ""
+    },
+    {
+      "id": "7b412abb-4108-44ce-a12d-9b8d34855284",
+      "key": "s2",
+      "value": ""
+    },
+    {
+      "id": "020a59cd-3085-456b-886f-c03c58ebc206",
+      "key": "e2",
+      "value": ""
+    },
+    {
+      "id": "b13d3c68-ebc3-454e-9913-dd2c4da791e0",
+      "key": "date_from",
+      "value": ""
+    },
+    {
+      "id": "823c7de5-e379-4774-9f4d-e458a219648d",
+      "key": "date_to",
+      "value": ""
+    },
+    {
+      "id": "c383a054-0efd-4c5b-b309-a993dcbb4626",
+      "key": "token",
+      "value": ""
+    }
+  ]
+}

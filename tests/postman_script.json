@@ -1,0 +1,506 @@
+{
+	"id": "c9ccbc41-62ff-4297-bdd4-d695e4e85104",
+	"name": "EV Presentation",
+	"timestamp": "2026-02-11T01:02:14.327Z",
+	"collection_id": "51990309-1319f85b-c8c2-48c8-9d61-8c34b2e3fc1a",
+	"folder_id": 0,
+	"environment_id": "51990309-08e70713-8b87-4f42-b595-d13b9b46ccd3",
+	"totalPass": 0,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2026-02-11T01:02:10.722Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "e585a931-66dd-492f-b248-906c2d8ebae1",
+			"name": "00 Login",
+			"url": "http://localhost:9876/api/v1/auth/signin",
+			"time": 77,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				77
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "5ab1cbab-605c-4aef-b38c-fca4b523efd8",
+			"name": "Healthcheck",
+			"url": "http://localhost:9876/api/v1/admin/healthcheck",
+			"time": 11,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				11
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "8affd512-b088-43a2-b6b8-307d30852e7b",
+			"name": "Add Mock Card",
+			"url": "http://localhost:9876/api/v1/payments/save-method",
+			"time": 19,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				19
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "88c7a1c1-0381-4c86-9519-77df16ca8af6",
+			"name": "Reset Points",
+			"url": "http://localhost:9876/api/v1/admin/resetpoints",
+			"time": 264,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				264
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "14d0dc6f-8db9-44e5-a972-0bf3c822a00c",
+			"name": "Healthcheck Copy",
+			"url": "http://localhost:9876/api/v1/admin/healthcheck",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				8
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "64d797cc-1f2f-4e20-9f76-e07f32446ec9",
+			"name": "Get Available Points",
+			"url": "http://localhost:9876/api/v1/points?status=available",
+			"time": 33,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				33
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "0bb64efa-f043-4f33-8399-68003ce3b566",
+			"name": "Get Charging Points",
+			"url": "http://localhost:9876/api/v1/points?status=charging",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				8
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "294a309a-5fcc-4df4-9db8-902db3d4527a",
+			"name": "Get OutOfOrder Points",
+			"url": "http://localhost:9876/api/v1/points?status=offline",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				9
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "31b3a26c-92ec-4108-adb0-12a893cec4dd",
+			"name": "Get Point Details",
+			"url": "http://localhost:9876/api/v1/point/21057",
+			"time": 12,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				12
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "059f41c2-036f-4a49-9118-870ee50af1a9",
+			"name": "Reserve Point",
+			"url": "http://localhost:9876/api/v1/reserve/21057",
+			"time": 44,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				44
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "11ed8456-9b5d-43ad-9ae8-d61e0a8dbc20",
+			"name": "Get Reserved Points",
+			"url": "http://localhost:9876/api/v1/points?status=reserved",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				8
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "136d7b5e-bc18-42c0-989c-b2b852944041",
+			"name": "Get Point Details Copy",
+			"url": "http://localhost:9876/api/v1/point/21057",
+			"time": 10,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				10
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "b93c840c-ca79-4340-8c13-11e243bea99c",
+			"name": "Release Point",
+			"url": "http://localhost:9876/api/v1/updpoint/21057",
+			"time": 10,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				10
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "79da753d-2411-49c7-89bd-e057d4567403",
+			"name": "Get Point Details Copy",
+			"url": "http://localhost:9876/api/v1/point/21057",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				9
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "f5618e83-ff9b-497b-a467-420b7e452f5d",
+			"name": "Reserve Point (Retry)",
+			"url": "http://localhost:9876/api/v1/reserve/21057",
+			"time": 32,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				32
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "9de11977-1b62-4b95-8cee-dd2b82115ad2",
+			"name": "Get Reserved Points Copy",
+			"url": "http://localhost:9876/api/v1/points?status=reserved",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				9
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "716933b4-af10-4a00-b46c-abff8322aa2b",
+			"name": "Start Session",
+			"url": "http://localhost:9876/api/v1/newsession",
+			"time": 17,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				17
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "c1c2fea6-612d-4d69-82f8-497f8e6c7bb5",
+			"name": "Get Point Status History",
+			"url": "http://localhost:9876/api/v1/pointstatus/21057/20250101/20250102",
+			"time": 9,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				9
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "be148c05-b5e2-4e25-b531-e6bc6697a203",
+			"name": "Get Point Details Copy",
+			"url": "http://localhost:9876/api/v1/point/21057",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				8
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "bc347b75-e19a-4dc6-b740-e8f041aa48f1",
+			"name": "Start Session 2",
+			"url": "http://localhost:9876/api/v1/newsession",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				16
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "b3db6b3d-4e3f-4cb6-b53c-38275b1b3f64",
+			"name": "Get Point Sessions",
+			"url": "http://localhost:9876/api/v1/sessions/21057/20250101/20250101",
+			"time": 7,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				7
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "b9f7a5ba-c18b-4805-beef-2c0bc3973231",
+			"name": "Get Point Status History",
+			"url": "http://localhost:9876/api/v1/pointstatus/21057/20250101/20250101",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				6
+			],
+			"allTests": [
+				{}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 626,
+	"collection": {
+		"requests": [
+			{
+				"id": "e585a931-66dd-492f-b248-906c2d8ebae1",
+				"method": "POST"
+			},
+			{
+				"id": "5ab1cbab-605c-4aef-b38c-fca4b523efd8",
+				"method": "GET"
+			},
+			{
+				"id": "8affd512-b088-43a2-b6b8-307d30852e7b",
+				"method": "POST"
+			},
+			{
+				"id": "88c7a1c1-0381-4c86-9519-77df16ca8af6",
+				"method": "POST"
+			},
+			{
+				"id": "14d0dc6f-8db9-44e5-a972-0bf3c822a00c",
+				"method": "GET"
+			},
+			{
+				"id": "64d797cc-1f2f-4e20-9f76-e07f32446ec9",
+				"method": "GET"
+			},
+			{
+				"id": "0bb64efa-f043-4f33-8399-68003ce3b566",
+				"method": "GET"
+			},
+			{
+				"id": "294a309a-5fcc-4df4-9db8-902db3d4527a",
+				"method": "GET"
+			},
+			{
+				"id": "31b3a26c-92ec-4108-adb0-12a893cec4dd",
+				"method": "GET"
+			},
+			{
+				"id": "059f41c2-036f-4a49-9118-870ee50af1a9",
+				"method": "POST"
+			},
+			{
+				"id": "11ed8456-9b5d-43ad-9ae8-d61e0a8dbc20",
+				"method": "GET"
+			},
+			{
+				"id": "136d7b5e-bc18-42c0-989c-b2b852944041",
+				"method": "GET"
+			},
+			{
+				"id": "b93c840c-ca79-4340-8c13-11e243bea99c",
+				"method": "POST"
+			},
+			{
+				"id": "79da753d-2411-49c7-89bd-e057d4567403",
+				"method": "GET"
+			},
+			{
+				"id": "f5618e83-ff9b-497b-a467-420b7e452f5d",
+				"method": "POST"
+			},
+			{
+				"id": "9de11977-1b62-4b95-8cee-dd2b82115ad2",
+				"method": "GET"
+			},
+			{
+				"id": "716933b4-af10-4a00-b46c-abff8322aa2b",
+				"method": "POST"
+			},
+			{
+				"id": "c1c2fea6-612d-4d69-82f8-497f8e6c7bb5",
+				"method": "GET"
+			},
+			{
+				"id": "be148c05-b5e2-4e25-b531-e6bc6697a203",
+				"method": "GET"
+			},
+			{
+				"id": "bc347b75-e19a-4dc6-b740-e8f041aa48f1",
+				"method": "POST"
+			},
+			{
+				"id": "b3db6b3d-4e3f-4cb6-b53c-38275b1b3f64",
+				"method": "GET"
+			},
+			{
+				"id": "b9f7a5ba-c18b-4805-beef-2c0bc3973231",
+				"method": "GET"
+			}
+		]
+	}
+}

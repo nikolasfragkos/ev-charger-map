@@ -1,0 +1,1163 @@
+{
+  "info": {
+    "_postman_id": "246552c9-3326-4884-b5c1-270113fb2ea7",
+    "name": "SoftEng2025 API Tests",
+    "description": "### Welcome to Postman! This is your first collection.\n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests  \n• Test your API in real-world scenarios  \n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "/admin/healthcheck",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "3b295adf-bc02-47b8-9a79-50a367932bde",
+                "exec": [
+                  "// 1. Έλεγχος ότι ο κωδικός HTTP είναι 200 (Success)\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος ότι η απάντηση ήρθε γρήγορα (π.χ. κάτω από 500ms)\r",
+                  "pm.test(\"Response time is less than 500ms\", function () {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+                  "});\r",
+                  "\r",
+                  "// 3. Έλεγχος της δομής και των δεδομένων του JSON\r",
+                  "pm.test(\"Check Healthcheck Response Body\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "\r",
+                  "    // Επιβεβαίωση status \"OK\"\r",
+                  "    pm.expect(jsonData.status).to.eql(\"OK\");\r",
+                  "\r",
+                  "    // Επιβεβαίωση ύπαρξης των υποχρεωτικών πεδίων\r",
+                  "    pm.expect(jsonData).to.have.property(\"dbconnection\");\r",
+                  "    pm.expect(jsonData.dbconnection).to.be.a('string'); // Πρέπει να είναι κείμενο\r",
+                  "\r",
+                  "    pm.expect(jsonData).to.have.property(\"n_charge_points\");\r",
+                  "    pm.expect(jsonData.n_charge_points).to.be.a('number'); // Πρέπει να είναι αριθμός\r",
+                  "\r",
+                  "    pm.expect(jsonData).to.have.property(\"n_charge_points_online\");\r",
+                  "    pm.expect(jsonData.n_charge_points_online).to.be.a('number');\r",
+                  "\r",
+                  "    pm.expect(jsonData).to.have.property(\"n_charge_points_offline\");\r",
+                  "    pm.expect(jsonData.n_charge_points_offline).to.be.a('number');\r",
+                  "\r",
+                  "    // Λογικός έλεγχος: Τα online + offline πρέπει να ισούνται με το σύνολο\r",
+                  "    pm.expect(jsonData.n_charge_points).to.eql(jsonData.n_charge_points_online + jsonData.n_charge_points_offline);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "4042b8a6-c291-482d-83f3-81ff7c1fe4a6",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/healthcheck",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "healthcheck"
+              ]
+            },
+            "description": "Health check endpoint to verify API and database connectivity"
+          },
+          "response": []
+        },
+        {
+          "name": "/admin/resetpoints",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "aeeeaaae-29f0-4214-9db6-a81b8bcf00a9",
+                "exec": [
+                  "// 1. Έλεγχος Status Code\r",
+                  "pm.test(\"Reset Points - Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος Body\r",
+                  "pm.test(\"Reset Points - Status is OK\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    // Ελέγχουμε αν υπάρχει status property και αν είναι OK\r",
+                  "    pm.expect(jsonData).to.have.property(\"status\");\r",
+                  "    pm.expect(jsonData.status).to.eql(\"OK\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "b08f5059-aa83-4826-a70c-66917ca435ee",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/resetpoints",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "resetpoints"
+              ]
+            },
+            "description": "Reset points data in the system"
+          },
+          "response": []
+        },
+        {
+          "name": "/admin/addpoints",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "a38dba93-d777-437b-9595-3d6da945300f",
+                "exec": [
+                  "// 1. Έλεγχος Status Code\r",
+                  "pm.test(\"Add Points - Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος Body\r",
+                  "pm.test(\"Add Points - Response contains success status\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    \r",
+                  "    // Ελέγχουμε αν επιστρέφει αντικείμενο με status ή αντικείμενο με τα νέα points \r",
+                  "    pm.expect(jsonData).to.have.property(\"status\"); \r",
+                  "    \r",
+                  "    pm.expect(jsonData).to.not.have.property(\"error\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "1d5270f9-4456-400a-9b0c-0640ebae171b",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": "new_points.csv"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/addpoints",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "addpoints"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "82e9a675-bddc-4a43-9e0f-d42bc4c0d096"
+    },
+    {
+      "name": "Points",
+      "item": [
+        {
+          "name": "Get Points (All)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "a2068c8f-906e-45c7-8435-bfa697109afd",
+                "exec": [
+                  "// 1. Έλεγχος Status Code\r",
+                  "pm.test(\"Get All Points - Status 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος ότι η απάντηση είναι Λίστα (Array)\r",
+                  "pm.test(\"Response is an array\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData).to.be.an(\"array\");\r",
+                  "    \r",
+                  "    // Αποθηκεύουμε το πρώτο point για περαιτέρω ελέγχους\r",
+                  "    if (jsonData.length > 0) {\r",
+                  "        var point = jsonData[0];\r",
+                  "\r",
+                  "        // 3. Έλεγχος των υποχρεωτικών πεδίων\r",
+                  "        pm.test(\"Point object has correct fields\", function () {\r",
+                  "            pm.expect(point).to.have.property(\"pointid\");\r",
+                  "            pm.expect(point).to.have.property(\"providerName\");\r",
+                  "            pm.expect(point).to.have.property(\"lon\");\r",
+                  "            pm.expect(point).to.have.property(\"lat\");\r",
+                  "            pm.expect(point).to.have.property(\"status\");\r",
+                  "            pm.expect(point).to.have.property(\"cap\");\r",
+                  "        });\r",
+                  "\r",
+                  "        // 4. Έλεγχος Τύπων Δεδομένων (Data Types)\r",
+                  "        pm.test(\"Field data types are correct\", function () {\r",
+                  "            // Το cap πρέπει να είναι αριθμός (Integer) \r",
+                  "            pm.expect(point.cap).to.be.a(\"number\");\r",
+                  "            \r",
+                  "            // Το status πρέπει να είναι String\r",
+                  "            pm.expect(point.status).to.be.a(\"string\");\r",
+                  "            \r",
+                  "            // Το providerName πρέπει να είναι String\r",
+                  "            pm.expect(point.providerName).to.be.a(\"string\");\r",
+                  "        });\r",
+                  "    } else {\r",
+                  "        console.warn(\"Warning: The list of points is empty!\");\r",
+                  "    }\r",
+                  "});\r",
+                  "\r",
+                  "var jsonData = pm.response.json();\r",
+                  "\r",
+                  "// Ελέγχουμε αν η λίστα έχει τουλάχιστον ένα σημείο\r",
+                  "if (jsonData.length > 0) {\r",
+                  "    // Παίρνουμε το ID του πρώτου φορτιστή\r",
+                  "    // ΠΡΟΣΟΧΗ: Έλεγξε αν το πεδίο λέγεται 'pointid' ή 'id' στην απάντησή σου\r",
+                  "    var activeId = jsonData[0].pointid; \r",
+                  "    \r",
+                  "    // Το αποθηκεύουμε σε μεταβλητή περιβάλλοντος \"testPointId\"\r",
+                  "    pm.environment.set(\"testPointId\", activeId);\r",
+                  "    \r",
+                  "    console.log(\"Active Point ID saved: \" + activeId);\r",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "ccd7ca63-5bcb-4aec-9b1d-1ea80fb4a1be",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/points",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "points"
+              ]
+            },
+            "description": "Retrieve all points from the system"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Points (Filtered)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "88963600-6346-4fd6-a409-61f784e6dd2e",
+                "exec": [
+                  "pm.test(\"Status 200 OK\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"All returned points have correct status\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData).to.be.an(\"array\");\r",
+                  "\r",
+                  "    // Ελέγχουμε ΚΑΘΕ στοιχείο της λίστας\r",
+                  "    jsonData.forEach(function(point) {\r",
+                  "        // Ελέγχουμε αν το status είναι 'available' (case-insensitive για ασφάλεια)\r",
+                  "        pm.expect(point.status.toLowerCase()).to.eql(\"available\");\r",
+                  "    });\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "6799c185-6388-49c9-b691-85d0f5e49a90",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/points?status=available",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "points"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "available"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Points (Invalid Status)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "0a4a3434-33c9-4cd0-baa3-85b53e39a754",
+                "exec": [
+                  "pm.test(\"Status is 400 (Bad Request)\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 401]);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Returns Error Log\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData).to.have.property(\"error\");\r",
+                  "    // Το μήνυμα λάθους δεν χρειάζεται να είναι συγκεκριμένο, αρκεί να υπάρχει\r",
+                  "    pm.expect(jsonData.error).to.be.a(\"string\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "f1269506-e135-45f8-8273-ea2a9bcc75bb",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/points?status=patata",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "points"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "patata"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "88602808-be71-4a44-82c6-532a20dd9af3"
+    },
+    {
+      "name": "Point",
+      "item": [
+        {
+          "name": "Get Point (Valid ID)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "973d0d81-0e74-44de-b218-b0e09af6a843",
+                "exec": [
+                  "// 1. Status 200 OK\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος Πεδίων (Schema Check)\r",
+                  "pm.test(\"Validate Point Data Fields\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "\r",
+                  "    // Υποχρεωτικά πεδία βάσει εκφώνησης\r",
+                  "    pm.expect(jsonData).to.have.property(\"pointid\");\r",
+                  "    pm.expect(jsonData).to.have.property(\"lon\");\r",
+                  "    pm.expect(jsonData).to.have.property(\"lat\");\r",
+                  "    pm.expect(jsonData).to.have.property(\"status\");\r",
+                  "    pm.expect(jsonData).to.have.property(\"cap\");\r",
+                  "    pm.expect(jsonData).to.have.property(\"reservationendtime\");\r",
+                  "    pm.expect(jsonData).to.have.property(\"kwhprice\");\r",
+                  "\r",
+                  "    // Έλεγχος Τύπων (Data Types)\r",
+                  "    pm.expect(jsonData.cap).to.be.a(\"number\");     // Integer\r",
+                  "    pm.expect(jsonData.kwhprice).to.be.a(\"number\"); // Float\r",
+                  "    \r",
+                  "    // Έλεγχος ότι το status είναι έγκυρο (ένα από τα 5 της εκφώνησης)\r",
+                  "    var validStatuses = [\"available\", \"charging\", \"reserved\", \"malfunction\", \"offline\", \"outage\", \"outoforder\", \"in_use\"];\r",
+                  "    pm.expect(validStatuses).to.include(jsonData.status.toLowerCase());\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "0d4482e6-4058-4ee3-bfce-5744a4cd5b9e",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/point/{{testPointId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "point",
+                "{{testPointId}}"
+              ]
+            },
+            "description": "Retrieve specific point with ID 1"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Point (Not Found)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "b4d5b79d-a6d8-4a17-b931-35f69554c8bb",
+                "exec": [
+                  "// 1. Status 404 Not Found\r",
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος Error Log\r",
+                  "pm.test(\"Returns Error Log\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    // Πρέπει να έχει πεδίο 'error' ή 'message' ανάλογα με το middleware σου\r",
+                  "    pm.expect(jsonData).to.have.property(\"error\"); \r",
+                  "    \r",
+                  "    // Έλεγχος ότι ο return code μέσα στο body συμφωνεί με το HTTP status\r",
+                  "    if(jsonData.return_code) {\r",
+                  "        pm.expect(jsonData.return_code).to.eql(404);\r",
+                  "    }\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "36b072be-82c5-4e5f-b3cc-ca5c873919db",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/point/9999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "point",
+                "9999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Point (Bad Request)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "8f06cda5-2788-4963-841f-ab726833dd96",
+                "exec": [
+                  "// 1. Status 400 Bad Request\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος Μηνύματος Λάθους\r",
+                  "pm.test(\"Error message is correct\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData).to.have.property(\"error\");\r",
+                  "    // Έλεγχος ότι το μήνυμα περιέχει κάτι σχετικό με \"Invalid charger id\"\r",
+                  "    pm.expect(jsonData.error).to.include(\"Invalid charger id\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "9cc44ce0-ff26-42d7-8fdc-74dd4445a3c8",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/point/abc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "point",
+                "abc"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "d2e656ca-2df9-43df-b5a9-1b7582bb6063"
+    },
+    {
+      "name": "Reserve",
+      "item": [
+        {
+          "name": "Reserve Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "408a89ca-f1ba-4cb6-8c50-bdcef0fc3624",
+                "exec": [
+                  "// 1. Έλεγχος Status Code (200 OK)\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος Body (Επιβεβαίωση Κράτησης)\r",
+                  "pm.test(\"Reservation Successful\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "\r",
+                  "    // Πρέπει να επιστρέφει το ID του σημείου\r",
+                  "    pm.expect(jsonData).to.have.property(\"pointid\");\r",
+                  "    // Το ID πρέπει να ταιριάζει με αυτό που ζητήσαμε (προσαρμογή string/int αν χρειάζεται)\r",
+                  "    // Παίρνουμε την τιμή από το περιβάλλον\r",
+                  "    var expectedId = pm.environment.get(\"testPointId\");\r",
+                  "\r",
+                  "    // Συγκρίνουμε (μετατρέποντας και τα δύο σε String για σιγουριά)\r",
+                  "    pm.expect(String(jsonData.pointid)).to.eql(String(expectedId));\r",
+                  "\r",
+                  "    // Το status πρέπει να άλλαξε σε \"reserved\"\r",
+                  "    pm.expect(jsonData).to.have.property(\"status\");\r",
+                  "    pm.expect(jsonData.status.toLowerCase()).to.eql(\"reserved\");\r",
+                  "\r",
+                  "    // Πρέπει να έχει χρόνο λήξης\r",
+                  "    pm.expect(jsonData).to.have.property(\"reservationendtime\");\r",
+                  "    pm.expect(jsonData.reservationendtime).to.not.eql(null);\r",
+                  "    \r",
+                  "    // Έλεγχος ότι η ημερομηνία είναι έγκυρη (όχι το 1970 που σημαίνει αποτυχία)\r",
+                  "    pm.expect(jsonData.reservationendtime).to.not.include(\"1970-01-01\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "44aeb38d-b9a4-4c48-8abb-daf00221759f",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reserve/{{testPointId}}/60",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reserve",
+                "{{testPointId}}",
+                "60"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reserve Spot (Conflict)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "a0a5a2e0-7795-4e3a-b941-629cc2500df1",
+                "exec": [
+                  "// Ελέγχουμε αν είναι Error code.\r",
+                  "pm.test(\"Request fails as expected (Spot occupied)\", function () {\r",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400, 409]);\r",
+                  "});\r",
+                  "\r",
+                  "// Έλεγχος ότι πήραμε Error Log και όχι επιτυχία\r",
+                  "pm.test(\"Returns Error Log\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    \r",
+                  "    // Πρέπει να έχει πεδίο error\r",
+                  "    pm.expect(jsonData).to.have.property(\"error\");\r",
+                  "    \r",
+                  "    // Το μήνυμα λάθους πρέπει να εξηγεί το πρόβλημα\r",
+                  "    // Π.χ. \"Station is not available\"\r",
+                  "    pm.expect(jsonData.error).to.be.a(\"string\");\r",
+                  "    console.log(\"Error message received: \" + jsonData.error);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "e7242cac-0716-4c31-b8fa-a0ef985d7149",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reserve/{{testPointId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reserve",
+                "{{testPointId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "e7d4edc9-e7ce-4f1c-a5d0-a9109d9ab7aa"
+    },
+    {
+      "name": "Updpoint",
+      "item": [
+        {
+          "name": "Update Success",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "9e89c449-fbd6-47ef-9a00-973d9d8d42ba",
+                "exec": [
+                  "// 1. Status 200 OK\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος ότι ενημερώθηκαν τα πεδία\r",
+                  "pm.test(\"Point updated successfully\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "\r",
+                  "    // Έλεγχος ID\r",
+                  "    // Παίρνουμε την τιμή από το περιβάλλον\r",
+                  "    var expectedId = pm.environment.get(\"testPointId\");\r",
+                  "\r",
+                  "    // Συγκρίνουμε (μετατρέποντας και τα δύο σε String για σιγουριά)\r",
+                  "    pm.expect(String(jsonData.pointid)).to.eql(String(expectedId));\r",
+                  "\r",
+                  "    // Έλεγχος Status\r",
+                  "    pm.expect(jsonData.status).to.be.oneOf([\"outoforder\", \"outage\"]);\r",
+                  "\r",
+                  "    // Έλεγχος Τιμής\r",
+                  "    // Πρέπει να είναι Number και ίσο με 0.99\r",
+                  "    pm.expect(jsonData.kwhprice).to.be.a(\"number\");\r",
+                  "    pm.expect(jsonData.kwhprice).to.eql(0.99);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "16eb8e9f-3cc3-4980-b9c8-701cbbbd170e",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"status\": \"outage\",\r\n  \"kwhprice\": 0.99\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/updpoint/{{testPointId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "updpoint",
+                "{{testPointId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Fail (Invalid Data)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "b4824dfa-c585-4591-a412-97d95f447644",
+                "exec": [
+                  "// 1. Status 400 Bad Request\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος Error Log\r",
+                  "pm.test(\"Returns Error Log\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    \r",
+                  "    // Πρέπει να έχει πεδίο error\r",
+                  "    pm.expect(jsonData).to.have.property(\"error\");\r",
+                  "    \r",
+                  "    // Το error πρέπει να μας λέει ότι το status είναι άκυρο\r",
+                  "    console.log(\"Error received: \" + jsonData.error);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "5e33ba09-199d-4ca0-bd75-6a5e39baa30c",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"status\": \"broken_charger_status\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/updpoint/{{testPointId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "updpoint",
+                "{{testPointId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "70842823-d907-4d10-af87-00e17ea6597a"
+    },
+    {
+      "name": "Newsession",
+      "item": [
+        {
+          "name": "Create Session",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "f913033e-0b9a-47fa-9143-8919ec5625c2",
+                "exec": [
+                  "// 1. Status 200 OK\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος Body (Πρέπει να είναι κενό ή success message)\r",
+                  "pm.test(\"Session recorded successfully\", function () {\r",
+                  "    // Ελέγχουμε απλώς ότι ΔΕΝ υπάρχει error.\r",
+                  "\r",
+                  "    // Αν το body δεν είναι κενό, κάνουμε parse\r",
+                  "    if (pm.response.text()) {\r",
+                  "        var jsonData = pm.response.json();\r",
+                  "        pm.expect(jsonData).to.not.have.property(\"error\");\r",
+                  "    }\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "e8b28831-572d-4379-96cc-b873b4e2d10b",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"pointid\": \"{{testPointId}}\",\r\n  \"starttime\": \"2026-02-01 10:00\",\r\n  \"endtime\": \"2026-02-01 11:00\",\r\n  \"startsoc\": 20,\r\n  \"endsoc\": 80,\r\n  \"totalkwh\": 15.5,\r\n  \"kwhprice\": 0.50,\r\n  \"amount\": 7.75\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/newsession",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "newsession"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Session (Invalid)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "29f73156-b6b0-49bb-8a7a-136e67559af8",
+                "exec": [
+                  "// 1. Status 400 Bad Request\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος Error Log\r",
+                  "pm.test(\"Returns Error Log for missing fields\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData).to.have.property(\"error\");\r",
+                  "    // Το μήνυμα πρέπει να παραπονιέται για τα πεδία που λείπουν\r",
+                  "    console.log(\"Error message: \" + jsonData.error);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "f2972227-65a2-42d7-aa02-737f42616389",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"pointid\": \"{{testPointId}}\",\r\n  \"starttime\": \"2026-02-01 10:00\"\r\n  // Λείπουν όλα τα άλλα\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/newsession",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "newsession"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "10fd5a8c-906c-4972-ba71-b9d77c08822e"
+    },
+    {
+      "name": "Sessions",
+      "item": [
+        {
+          "name": "Get Sessions History",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "b96b9a46-341f-436a-95f0-0ba21264dda4",
+                "exec": [
+                  "// 1. Status 200 OK\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος ότι επιστρέφει λίστα\r",
+                  "pm.test(\"Response is a list of sessions\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    \r",
+                  "    // Η απάντηση πρέπει να είναι Array (Λίστα)\r",
+                  "    pm.expect(jsonData).to.be.an(\"array\");\r",
+                  "    \r",
+                  "    // Πρέπει να βρούμε τουλάχιστον μία εγγραφή\r",
+                  "    pm.expect(jsonData.length).to.be.above(0);\r",
+                  "});\r",
+                  "\r",
+                  "// 3. Έλεγχος Πεδίων της συνεδρίας\r",
+                  "pm.test(\"Session object has correct fields\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    \r",
+                  "    if (jsonData.length > 0) {\r",
+                  "        var session = jsonData[0]; // Παίρνουμε την πρώτη εγγραφή\r",
+                  "        \r",
+                  "        // Έλεγχος πεδίων\r",
+                  "        pm.expect(session).to.have.property(\"starttime\");\r",
+                  "        pm.expect(session).to.have.property(\"endtime\");\r",
+                  "        pm.expect(session).to.have.property(\"startsoc\");\r",
+                  "        pm.expect(session).to.have.property(\"endsoc\");\r",
+                  "        pm.expect(session).to.have.property(\"totalkwh\");\r",
+                  "        pm.expect(session).to.have.property(\"kwhprice\");\r",
+                  "        pm.expect(session).to.have.property(\"amount\");\r",
+                  "        \r",
+                  "        // Έλεγχος ότι τα νούμερα είναι σωστά (π.χ. kwhprice)\r",
+                  "        pm.expect(session.kwhprice).to.be.a(\"number\");\r",
+                  "        pm.expect(session.amount).to.be.a(\"number\");\r",
+                  "    }\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "ded8f8be-7b4b-4932-ad48-9b75620c9156",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/sessions/{{testPointId}}/20260101/20261231",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sessions",
+                "{{testPointId}}",
+                "20260101",
+                "20261231"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "cd4caf2e-7a42-4d1f-8bb2-7e5abac999fe"
+    },
+    {
+      "name": "Pointstatus",
+      "item": [
+        {
+          "name": "Get Point Status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "cf2b1e1e-269e-4bfe-a9f3-56ac1d6af01d",
+                "exec": [
+                  "// 1. Status 200 OK\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος ότι είναι λίστα\r",
+                  "pm.test(\"Response is a list of status changes\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData).to.be.an(\"array\");\r",
+                  "    \r",
+                  "    // Αν έχουμε τρέξει updpoint/reserve, πρέπει να υπάρχει τουλάχιστον μία εγγραφή\r",
+                  "    // Αν είναι άδεια η λίστα, το test θα περάσει (είναι valid array), \r",
+                  "    // αλλά καλό είναι να βλέπεις δεδομένα.\r",
+                  "    if (jsonData.length === 0) {\r",
+                  "        console.warn(\"Warning: No status history found for this period.\");\r",
+                  "    }\r",
+                  "});\r",
+                  "\r",
+                  "// 3. Έλεγχος Πεδίων\r",
+                  "pm.test(\"Status object has correct fields (snake_case)\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    \r",
+                  "    if (jsonData.length > 0) {\r",
+                  "        var statusChange = jsonData[0];\r",
+                  "        \r",
+                  "        // Η εκφώνηση απαιτεί timeref, old_state, new_state\r",
+                  "        pm.expect(statusChange).to.have.property(\"timeref\");\r",
+                  "        pm.expect(statusChange).to.have.property(\"old_state\");\r",
+                  "        pm.expect(statusChange).to.have.property(\"new_state\");\r",
+                  "        \r",
+                  "        // Έλεγχος τύπων\r",
+                  "        pm.expect(statusChange.timeref).to.be.a(\"string\");\r",
+                  "        pm.expect(statusChange.old_state).to.be.a(\"string\");\r",
+                  "        pm.expect(statusChange.new_state).to.be.a(\"string\");\r",
+                  "    }\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "f0ad9677-aa0f-4166-b894-a03c12903bb2",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pointstatus/{{testPointId}}/20260101/20261231",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pointstatus",
+                "{{testPointId}}",
+                "20260101",
+                "20261231"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Point Status (Invalid Date)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "77aac150-d883-4898-8025-05f7a1cd6167",
+                "exec": [
+                  "// 1. Status 400 Bad Request\r",
+                  "pm.test(\"Status code is 400\", function () {\r",
+                  "    pm.response.to.have.status(400);\r",
+                  "});\r",
+                  "\r",
+                  "// 2. Έλεγχος Error Log\r",
+                  "pm.test(\"Returns Error Log\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData).to.have.property(\"error\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "67caea6e-b881-4186-b04b-4c8328cda0b8",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pointstatus/{{testPointId}}/invalid/date",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "pointstatus",
+                "{{testPointId}}",
+                "invalid",
+                "date"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "35c68b10-a621-4d1a-be99-04329b3c6539"
+    },
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "ffb56e01-3aa3-4712-9d20-33a9f62c6400",
+            "exec": [
+              "var jsonData = pm.response.json();\r",
+              "// Αποθηκεύει το token σε μια μεταβλητή που λέγεται \"authToken\"\r",
+              "pm.environment.set(\"authToken\", jsonData.token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "id": "82588cb6-96fc-4031-b6de-2f3ecb4ef070",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"admin@ev.local\",\r\n  \"password\": \"admin123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/signin",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "signin"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "6bfaf6ec-a012-41ea-bf74-a8f22430bdba",
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "b8375758-ecda-4f1d-9dc2-e5abf607de7a",
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}

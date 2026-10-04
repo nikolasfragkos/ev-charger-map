@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.1.15",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-switch": "^1.2.6",
+    "class-variance-authority": "^0.7.1",
+    "csv-parse": "^6.1.0",
+    "multer": "^2.0.2",
+    "radix-ui": "^1.4.3",
+    "react-router": "^7.13.0",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^26.6.4",
+    "chai": "^6.2.2",
+    "mocha": "^11.7.5",
+    "tsx": "^4.20.6"
+  },
+  "scripts": {
+    "test:cli": "npx mocha --require tsx tests/cli.test.ts"
+  }
+}
